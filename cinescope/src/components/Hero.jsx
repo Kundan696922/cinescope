@@ -31,7 +31,7 @@ const Hero = ({ movie }) => {
       />
       <Container className="h-100 d-flex flex-column justify-content-end p-4 text-white" style={{ position: 'relative' }}>
         <h1 className="fw-bold display-5 mb-2">{movie.Title}</h1>
-        <p className="mb-1">{movie.Plot}</p>
+        <p className="mb-1 d-none d-md-block">{movie.Plot}</p> {/* Hidden on small devices */}
         <div className="d-flex align-items-center gap-3 mt-2 flex-wrap">
           <Badge bg="warning" text="dark">⭐ {movie.imdbRating}</Badge>
           <Badge bg="secondary">{movie.Year}</Badge>
