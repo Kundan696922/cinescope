@@ -79,8 +79,8 @@ Make sure you have the following installed:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Kundan696922/budgetwise.git
-   cd budgetwise
+   git clone https://github.com/Kundan696922/cinescope.git
+   cd cinescope
    
 2. Install npm packages:
    ```bash
