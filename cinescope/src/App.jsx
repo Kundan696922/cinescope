@@ -10,7 +10,7 @@ import { Container, Row, Col, Form } from 'react-bootstrap';
 
 const App = () => {
   const [movies, setMovies] = useState([]);
-  const [featuredMovie, setFeaturedMovie] = useState(null);
+  const [featuredMovies, setFeaturedMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [ratingFilter, setRatingFilter] = useState('0');
@@ -19,10 +19,44 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    const defaultTerms = ['batman', 'matrix', 'avengers', 'spiderman', 'harry potter', 'star wars', 'inception'];
-    const randomTerm = defaultTerms[Math.floor(Math.random() * defaultTerms.length)];
-    handleSearch(randomTerm);
+    fetchRandomMovies();
   }, [ratingFilter]);
+
+  const fetchRandomMovies = async () => {
+    setLoading(true);
+    setSearchQuery('');
+    setMovies([]);
+    const defaultTerms = ['batman', 'matrix', 'avengers', 'spiderman', 'harry potter', 'star wars', 'inception', 'mission', 'jurassic', 'iron man'];
+
+    // Pick 3 random unique keywords
+    const keywords = defaultTerms
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 3);
+
+    const uniqueMoviesMap = new Map();
+
+    for (const keyword of keywords) {
+      const results = await searchMovies(keyword);
+      for (const movie of results) {
+        if (!uniqueMoviesMap.has(movie.imdbID)) {
+          const details = await getMovieDetails(movie.imdbID);
+          if (details && parseFloat(details.imdbRating) >= parseFloat(ratingFilter)) {
+            uniqueMoviesMap.set(movie.imdbID, details);
+          }
+        }
+      }
+    }
+
+    const uniqueMovies = Array.from(uniqueMoviesMap.values());
+
+    setMovies(uniqueMovies);
+
+    // Select 3 random movies for the Hero carousel
+    const shuffled = uniqueMovies.sort(() => 0.5 - Math.random());
+    setFeaturedMovies(shuffled.slice(0, 3));
+
+    setLoading(false);
+  };
 
   const handleSearch = async (query) => {
     setSearchQuery(query);
@@ -39,7 +73,11 @@ const App = () => {
     }
 
     setMovies(filtered);
-    if (filtered.length > 0) setFeaturedMovie(filtered[0]);
+
+    // Pick 3 random unique movies for the hero carousel
+    const shuffled = filtered.sort(() => 0.5 - Math.random());
+    setFeaturedMovies(shuffled.slice(0, 3));
+
     setLoading(false);
   };
 
@@ -80,7 +118,7 @@ const App = () => {
             </div>
           ) : (
             <>
-              {featuredMovie && <Hero movie={featuredMovie} />}
+              {featuredMovies.length > 0 && <Hero movies={featuredMovies} />}
 
               {movies.length === 0 ? (
                 <div className="text-center my-5">
