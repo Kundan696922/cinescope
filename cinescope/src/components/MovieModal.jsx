@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button, Spinner } from 'react-bootstrap';
+import { Modal, Button, Placeholder } from 'react-bootstrap';
 
 const MovieModal = ({ show, onHide, movie, loading }) => {
   return (
@@ -10,14 +10,27 @@ const MovieModal = ({ show, onHide, movie, loading }) => {
       contentClassName="bg-dark text-white"
     >
       <Modal.Header closeButton>
-        <Modal.Title>{loading ? 'Loading...' : movie?.Title}</Modal.Title>
+        <Modal.Title>
+          {loading ? (
+            <Placeholder as="span" animation="glow">
+              <Placeholder xs={6} />
+            </Placeholder>
+          ) : (
+            movie?.Title
+          )}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {loading || !movie ? (
-          <div className="text-center py-5">
-            <Spinner animation="border" variant="light" />
-            <p className="mt-3">Fetching movie details...</p>
-          </div>
+          <>
+            <Placeholder animation="glow">
+              <Placeholder className="w-100 mb-3" style={{ height: '450px' }} />
+              <Placeholder xs={4} /> <Placeholder xs={6} />
+              <Placeholder xs={3} /> <Placeholder xs={7} />
+              <Placeholder xs={2} /> <Placeholder xs={8} />
+              <Placeholder xs={5} /> <Placeholder xs={5} />
+            </Placeholder>
+          </>
         ) : (
           <>
             <img
