@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Spinner, Badge } from 'react-bootstrap';
+import { Card, Badge, Placeholder } from 'react-bootstrap';
 
 const MovieCard = ({ movie, onClick }) => {
   const [imgLoaded, setImgLoaded] = useState(false);
@@ -15,14 +15,16 @@ const MovieCard = ({ movie, onClick }) => {
       onClick={() => onClick(movie.imdbID)}
       style={{ cursor: 'pointer' }}
     >
-      {/* Image container with spinner */}
+      {/* Placeholder for image */}
       <div className="position-relative" style={{ height: '320px' }}>
         {!imgLoaded && (
-          <div className="d-flex justify-content-center align-items-center h-100 bg-dark rounded-top">
-            <Spinner animation="border" variant="light" />
-          </div>
+          <Placeholder animation="glow">
+            <Placeholder
+              className="w-100 h-100 bg-secondary rounded-top"
+              style={{ height: '320px' }}
+            />
+          </Placeholder>
         )}
-
         <Card.Img
           variant="top"
           src={imageUrl}
