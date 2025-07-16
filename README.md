@@ -27,7 +27,7 @@
 
 - 🔍 **Search movies** by title
 - 🎬 **Featured Hero Banner** with genre, rating, plot
-- 🌀 **Loading spinners** for search and images
+- ⏳ **Content placeholders** for loading states
 - ⭐ **IMDb rating filter**
 - 🧾 **Movie cards** with year and rating
 - 🪟 **Responsive modal** with full movie details
