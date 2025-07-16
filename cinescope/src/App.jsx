@@ -6,7 +6,7 @@ import MovieModal from './components/MovieModal';
 import SearchBar from './components/SearchBar';
 import Footer from './components/Footer';
 import { searchMovies, getMovieDetails } from './api';
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Container, Row, Col, Form, Placeholder } from 'react-bootstrap';
 
 const App = () => {
   const [movies, setMovies] = useState([]);
@@ -28,11 +28,7 @@ const App = () => {
     setMovies([]);
     const defaultTerms = ['batman', 'matrix', 'avengers', 'spiderman', 'harry potter', 'star wars', 'inception', 'mission', 'jurassic', 'iron man'];
 
-    // Pick 3 random unique keywords
-    const keywords = defaultTerms
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 3);
-
+    const keywords = defaultTerms.sort(() => 0.5 - Math.random()).slice(0, 3);
     const uniqueMoviesMap = new Map();
 
     for (const keyword of keywords) {
@@ -50,11 +46,8 @@ const App = () => {
     const uniqueMovies = Array.from(uniqueMoviesMap.values());
 
     setMovies(uniqueMovies);
-
-    // Select 3 random movies for the Hero carousel
     const shuffled = uniqueMovies.sort(() => 0.5 - Math.random());
     setFeaturedMovies(shuffled.slice(0, 3));
-
     setLoading(false);
   };
 
@@ -73,11 +66,8 @@ const App = () => {
     }
 
     setMovies(filtered);
-
-    // Pick 3 random unique movies for the hero carousel
     const shuffled = filtered.sort(() => 0.5 - Math.random());
     setFeaturedMovies(shuffled.slice(0, 3));
-
     setLoading(false);
   };
 
@@ -110,11 +100,27 @@ const App = () => {
           </Form.Select>
 
           {loading ? (
-            <div className="text-center my-5">
-              <div className="spinner-border text-danger" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-              <p className="mt-3">Fetching awesome movies...</p>
+            <div className="my-5">
+              <Row className="g-4">
+                {[...Array(8)].map((_, index) => (
+                  <Col key={index} xs={12} sm={6} md={4} lg={3}>
+                    <div className="card bg-dark text-white h-100">
+                      <div
+                        className="bg-secondary rounded-top w-100"
+                        style={{ height: '320px' }}
+                      ></div>
+                      <div className="card-body">
+                        <p className="placeholder-glow mb-2">
+                          <span className="placeholder col-10"></span>
+                        </p>
+                        <p className="placeholder-glow">
+                          <span className="placeholder col-6"></span>
+                        </p>
+                      </div>
+                    </div>
+                  </Col>
+                ))}
+              </Row>
             </div>
           ) : (
             <>
